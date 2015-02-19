@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html ng-app="surveyApp">
+    
+    <head>
+
+        <title>Maker Education Asset Inventory</title>
+
+        <!-- Remote styles -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+
+        <!-- Local styles -->
+        <link rel="stylesheet" href="/static/css/select.css">
+
+        <!-- Remote javascript -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.min.js"></script>
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+        <script src="/static/js/survey.js"></script>
+
+        <!-- Local javascript -->
+        <script src="/static/js/select.js"></script>
+
+    </head>
+
+    <body ng-controller="surveyController">
+
+        <!-- Survey blurb, common across all stages. -->
+        <div class="container">
+            <div class="jumbotron">
+                <h1>Maker Education Asset Inventory</h1>
+                <p>
+                    We need to come up with a proper title for this form and to
+                    write a sufficiently interesting and motivating blurb.
+                </p>
+                <a class="btn btn-primary btn-lg" href="#">Find out more...</a>
+            </div>
+        </div>
+
+        <!-- Error field, only visible if we could not submit the form -->
+        <div class="container" ng-show="error">
+            <div class="panel panel-danger">
+                <div class="panel-heading">There was a problem submitting your response</div>
+                <div class="panel-body">
+                    <p>
+                        We couldn't upload the response; please click the button below to send
+                        your response via email instead.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Survey form, only visible until submission. -->
+        <div class="container" ng-hide="submitted">
+
+            <!-- User identification -->
+            <div class="panel panel-default">
+                <div class="panel-heading">About You</div>
+                <div class="panel-body">
+                    <p>
+                        Collect information here about:
+                    </p>
+                    <div class="form-group">
+                        <label for="nameInput">Name</label>
+                        <input ng-model="name" type="text" class="form-control" id="nameInput" placeholder="Enter name">
+                    </div>
+                    <div class="form-group">
+                        <label for="emailInput">Email</label>
+                        <input ng-model="email" type="email" class="form-control" id="emailInput" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="facultyInput">Faculty</label>
+                        <select ng-model="faculty" class="form-control" id="facultyInput">
+                            <option>Faculty of Arts, Professional and Social Studies</option>
+                            <option>Faculty of Education, Health and Community</option>
+                            <option>Faculty of Science</option>
+                            <option>Faculty of Technology and Environment</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Asset entry -->
+            <div class="panel panel-default" ng-controller="assetController">
+                <div class="panel-heading">Assets</div>
+                <div class="panel-body">
+                    <p>
+                        We will need to include some text clarifying precisely
+                        what we mean by asset for the purpose of this inventory.
+                    </p>
+                    <p>
+                        Allow the user to create and edit a list of assets, with
+                        information about each asset including:
+                    </p>
+                    <form class="form" name="assetForm" ng-submit="assetForm.$valid && addAsset(inventory)" novalidate>
+                        <div class="form-group">
+                            <label for="equipmentSelect">Equipment</label>
+                            <ui-select ng-model="asset.item" ng-disabled="disabled" style="min-width: 300px;" title="Choose equipment">
+                                <ui-select-match placeholder="Select a piece of equipment or search by type...">{{$select.selected.item}}</ui-select-match>
+                                <ui-select-choices group-by="'category'" repeat="element.item as element in equipment | propsFilter: {item: $select.search}">
+                                    <div ng-bind-html="element.item | highlight: $select.search"></div>
+                                    <small>{{element.item}}</small>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantityInput">Quantity</label>
+                            <input type="number" ng-model="asset.quantity" class="form-control" id="quantityInput" placeholder="Enter quantity">
+                        </div>
+                        <div class="form-group">
+                            <label for="locationSelect">Building</label>
+                            <ui-select ng-model="asset.location" ng-disabled="disabled" style="min-width: 300px;" title="Choose equipment">
+                                <ui-select-match placeholder="Select a piece of equipment or search by type...">{{$select.selected.building}}</ui-select-match>
+                                <ui-select-choices group-by="'site'" repeat="location.building as location in locations | propsFilter: {building: $select.search}">
+                                    <div ng-bind-html="location.building | highlight: $select.search"></div>
+                                    <small>{{location.building}}</small>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <div class="form-group">
+                            <label for="staffAvailabilityInput">Availability for staff</label>
+                            <select class="form-control" ng-model="asset.staff" id="staffAvailabilityInput">
+                                <option>Supervised in location</option>
+                                <option>Unsupervised in location</option>
+                                <option>Home usage</option>
+                                <option>Unavailable</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentAvailabilityInput">Availability for students</label>
+                            <select class="form-control" ng-model="asset.student" id="studentAvailabilityInput">
+                                <option>Supervised in location</option>
+                                <option>Unsupervised in location</option>
+                                <option>Home usage</option>
+                                <option>Unavailable</option>
+                            </select>
+                        </div>
+                        <input type="submit" class="btn btn-success btn-sm pull-right" value="Add to list">
+                    </form>
+                </div>
+                <table class="table" ng-show="inventory.length">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Location</th>
+                            <th>Staff Availability</th>
+                            <th>Student Availability</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="asset in inventory">
+                            <td>{{ asset.item }}</td>
+                            <td>{{ asset.quantity }}</td>
+                            <td>{{ asset.location }}</td>
+                            <td>{{ asset.staff }}</td>
+                            <td>{{ asset.student }}</td>
+                            <td>
+                                <button class="btn btn-default btn-xs pull-right" ng-click="removeAsset(inventory, asset)">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Actions -->
+            <button class="btn btn-success btn-lg pull-right" ng-click="upload()">Submit</a>
+
+        </div>
+
+        <!-- Thanks message, only shown when the form is submitted. -->
+        <div class="container" ng-show="submitted">
+            <div class="panel panel-success">
+                <div class="panel-heading">Thanks for your Submission</div>
+                <div class="panel-body">
+                    <p>
+                        Thanks a lot for submitting your response to the LJMU Maker Education asset
+                        inventory.  We'll be publishing a report of our findings and defining procedures
+                        accessing the equipment when the survey completes, and we'll keep you posted
+                        on the results.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+    </body>
+
+
+</html>
+
