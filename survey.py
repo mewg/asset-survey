@@ -11,6 +11,10 @@ import uuid
 
 import flask
 
+# Form validation constants.
+REQUIRED_FIELDS = ["name", "email", "faculty", "inventory"]
+REQUIRED_INVENTORY_FIELDS = ["item", "quantity", "location", "staff", "student"]
+
 # Create the module-wide logger instance.
 logger = logging.getLogger("survey")
 
@@ -19,6 +23,10 @@ response_path = None
 
 # Create the web application.
 app = flask.Flask(__name__)
+
+# Configure the web application.
+app.config["LOGGER_NAME"] = "survey.server"
+app.config["MAX_CONTENT_LENGTH"] = 2048
 
 @app.route("/")
 def root():
@@ -35,6 +43,29 @@ def submit():
     # Attempt to interpret the response as a JSON document.  If the request is
     # not a valid document, this will fail.
     document = flask.request.get_json()
+    # Verify that required fields are present by removing them from a clone of
+    # the document keys.
+    fields = document.keys()
+    for field in REQUIRED_FIELDS:
+        if field not in fields:
+            return flask.make_response(422, "Required field is missing")
+        fields.remove(field)
+    # If any keys remain in the document, the client has responded with
+    # additional, unwanted data.
+    if fields:
+        return flask.make_response(422, "Unexpected field in response")
+    # Verify that at least one inventory item has been submitted.
+    if len(document["inventory"]) == 0:
+        return flask.make_response(422, "Must include at least one asset")
+    # Verify the structure of each inventory item.
+    for item in document["inventory"]:
+        fields = item.keys()
+        for field in REQUIRED_INVENTORY_FIELDS:
+            if field not in fields:
+                return flask.make_response(422, "Asset field is missing")
+            fields.remove(field)
+        if fields:
+            return flask.make_response(422, "Unexpected asset field")
     # Now that the document is validated, store it on the filesystem.
     filename = "{}.json".format(uuid.uuid4())
     path = os.path.join(response_path, filename)
