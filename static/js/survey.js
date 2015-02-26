@@ -167,6 +167,8 @@ app.controller("assetController", ["$scope", "$http", function($scope, $http) {
 
 }]);
 
+// Create the standard property-based filter for the auto-completing selection
+// inputs.
 app.filter('propsFilter', function() {
   return function(items, props) {
     var out = [];

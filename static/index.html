@@ -60,23 +60,25 @@
                     <p>
                         Collect information here about:
                     </p>
-                    <div class="form-group">
-                        <label for="nameInput">Name</label>
-                        <input ng-model="name" type="text" class="form-control" id="nameInput" placeholder="Enter name">
-                    </div>
-                    <div class="form-group">
-                        <label for="emailInput">Email</label>
-                        <input ng-model="email" type="email" class="form-control" id="emailInput" placeholder="Enter email">
-                    </div>
-                    <div class="form-group">
-                        <label for="facultyInput">Faculty</label>
-                        <select ng-model="faculty" class="form-control" id="facultyInput">
-                            <option>Faculty of Arts, Professional and Social Studies</option>
-                            <option>Faculty of Education, Health and Community</option>
-                            <option>Faculty of Science</option>
-                            <option>Faculty of Technology and Environment</option>
-                        </select>
-                    </div>
+                    <form class="form" name="personForm" novalidate>
+                        <div class="form-group">
+                            <label for="nameInput">Name</label>
+                            <input ng-model="name" type="text" class="form-control" id="nameInput" placeholder="Enter name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="emailInput">Email</label>
+                            <input ng-model="email" type="email" class="form-control" id="emailInput" placeholder="Enter email" required="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="facultyInput">Faculty</label>
+                            <select ng-model="faculty" class="form-control" id="facultyInput" ng-class="{'has-error': personForm.nameInput.$invalid && personForm.nameInput.$dirty}">
+                                <option>Faculty of Arts, Professional and Social Studies</option>
+                                <option>Faculty of Education, Health and Community</option>
+                                <option>Faculty of Science</option>
+                                <option>Faculty of Technology and Environment</option>
+                            </select>
+                        </div>
+                    </form>
                 </div>
             </div>
 
@@ -95,7 +97,7 @@
                     <form class="form" name="assetForm" ng-submit="assetForm.$valid && addAsset(inventory)" novalidate>
                         <div class="form-group">
                             <label for="equipmentSelect">Equipment</label>
-                            <ui-select ng-model="asset.item" ng-disabled="disabled" style="min-width: 300px;" title="Choose equipment">
+                            <ui-select ng-model="asset.item" ng-disabled="disabled" style="min-width: 300px;" title="Choose equipment" required="true">
                                 <ui-select-match placeholder="Select a piece of equipment or search by type...">{{$select.selected.item}}</ui-select-match>
                                 <ui-select-choices group-by="'category'" repeat="element.item as element in equipment | propsFilter: {item: $select.search}">
                                     <div ng-bind-html="element.item | highlight: $select.search"></div>
@@ -105,11 +107,11 @@
                         </div>
                         <div class="form-group">
                             <label for="quantityInput">Quantity</label>
-                            <input type="number" ng-model="asset.quantity" class="form-control" id="quantityInput" placeholder="Enter quantity">
+                            <input type="number" min="1" required="true" ng-model="asset.quantity" class="form-control" id="quantityInput" placeholder="Enter quantity">
                         </div>
                         <div class="form-group">
                             <label for="locationSelect">Building</label>
-                            <ui-select ng-model="asset.location" ng-disabled="disabled" style="min-width: 300px;" title="Choose equipment">
+                            <ui-select ng-model="asset.location" ng-disabled="disabled" style="min-width: 300px;" title="Choose equipment" required="true">
                                 <ui-select-match placeholder="Select a piece of equipment or search by type...">{{$select.selected.building}}</ui-select-match>
                                 <ui-select-choices group-by="'site'" repeat="location.building as location in locations | propsFilter: {building: $select.search}">
                                     <div ng-bind-html="location.building | highlight: $select.search"></div>
@@ -138,7 +140,16 @@
                         <input type="submit" class="btn btn-success btn-sm pull-right" value="Add to list">
                     </form>
                 </div>
-                <table class="table" ng-show="inventory.length">
+
+                <!-- When the user has not entered any assets, let them know that they have to -->
+                <div class="panel-footer" ng-hide="inventory.length">
+                    <p>
+                        Please enter at least one asset.
+                    </p>
+                </div>
+
+                <!-- Asset table that only shows when some assets are entered -->
+                <table class="table" ng-show="inventory.length" ng-show="inventory.length">
                     <thead>
                         <tr>
                             <th>Item</th>
@@ -162,10 +173,11 @@
                         </tr>
                     </tbody>
                 </table>
+
             </div>
 
             <!-- Actions -->
-            <button class="btn btn-success btn-lg pull-right" ng-click="upload()">Submit</a>
+            <button class="btn btn-success btn-lg pull-right" ng-click="personForm.$valid && inventory.length && upload()">Submit</a>
 
         </div>
 
