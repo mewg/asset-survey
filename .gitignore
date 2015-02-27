@@ -1,0 +1,11 @@
+###
+### .gitignore
+###
+
+## Development files.
+venv/
+
+## Working files.
+*.log
+responses/*.json
+
