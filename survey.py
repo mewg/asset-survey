@@ -45,7 +45,7 @@ def submit():
     document = flask.request.get_json()
     # Verify that required fields are present by removing them from a clone of
     # the document keys.
-    fields = document.keys()
+    fields = list(document.keys())
     for field in REQUIRED_FIELDS:
         if field not in fields:
             return flask.make_response(422, "Required field is missing")
@@ -59,7 +59,7 @@ def submit():
         return flask.make_response(422, "Must include at least one asset")
     # Verify the structure of each inventory item.
     for item in document["inventory"]:
-        fields = item.keys()
+        fields = list(item.keys())
         for field in REQUIRED_INVENTORY_FIELDS:
             if field not in fields:
                 return flask.make_response(422, "Asset field is missing")
