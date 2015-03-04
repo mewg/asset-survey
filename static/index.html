@@ -28,12 +28,37 @@
         <!-- Survey blurb, common across all stages. -->
         <div class="container">
             <div class="jumbotron">
-                <h1>Maker Education Asset Inventory</h1>
+                <h1>HEdWorks Maker Inventory</h1>
                 <p>
-                    We need to come up with a proper title for this form and to
-                    write a sufficiently interesting and motivating blurb.
+                    As part of a <a href="http://makered.wtf/HEdWorks-CEF2014" target="_blank">
+					curriculum enrichment programme</a>
+					initiated by Maker Education
+					working group (MEwg) members at LJMU this inventory aims to:-					
+					<ul>
+						<li>Identify items relating to STEAM.</li>
+						<li>Map items across the university.</li>
+						<li>Provide contact and access information to items.</li>
+					</ul>
+					<p>
+						It's objectives are:-
+					</p>
+					<ul>
+						<li>Improve the discovery and usage of items by staff.</li>
+						<li>Share skills and ideas across campuses.</li>
+						<li>Enhance student experiences and foster cross-collaboration.</li>
+					</ul>
+					
                 </p>
-                <a class="btn btn-primary btn-lg" href="#">Find out more...</a>
+				<p>
+                <a class="btn btn-primary btn-lg" href="http://makered.wtf/HEdWorks-CEF2014" 
+				target="_blank">Find out more...</a>
+				</p>
+				<p>
+					Feel free to contact <a href="http://makered.wtf/members/" target="_blank">
+					a member you might know</a> for information or help. Or 
+					<a href="mailto:cms-mewg@ljmu.ac.uk?Subject=HEdWorks Inventory" target="_top" >
+					contact the group</a> directly.
+				</p>
             </div>
         </div>
 
@@ -55,15 +80,16 @@
 
             <!-- User identification -->
             <div class="panel panel-default">
-                <div class="panel-heading">About You</div>
+                <div class="panel-heading">About you</div>
                 <div class="panel-body">
                     <p>
-                        Collect information here about:
+                        It's important we get the details of anyone adding to the inventory. Please
+						complete all the fields about you.
                     </p>
                     <form class="form" name="personForm" novalidate>
                         <div class="form-group">
                             <label for="nameInput">Name</label>
-                            <input ng-model="name" type="text" class="form-control" id="nameInput" placeholder="Enter name" required>
+                            <input ng-model="name" type="text" class="form-control" id="nameInput" placeholder="Enter name" required="true">
                         </div>
                         <div class="form-group">
                             <label for="emailInput">Email</label>
@@ -87,12 +113,15 @@
                 <div class="panel-heading">Assets</div>
                 <div class="panel-body">
                     <p>
-                        We will need to include some text clarifying precisely
-                        what we mean by asset for the purpose of this inventory.
-                    </p>
-                    <p>
-                        Allow the user to create and edit a list of assets, with
-                        information about each asset including:
+                        Please tell us about the item(s) you would like us to map to the maker inventory:-
+						<ol>
+							<li>Complete all the fields in this panel, 'Assets'.</li>
+							<li>Click 'Add to list' button.</li>
+							<li>Successful additions appear below the button.</li>
+							<li>Complete all the fields again in this 'Assets' panel for any remaining items.</li>
+							<li>Review the table ensuring all the items are correct.</li>
+							<li>Click 'Submit' button</li>
+						</ol>
                     </p>
                     <form class="form" name="assetForm" ng-submit="assetForm.$valid && addAsset(inventory)" novalidate>
                         <div class="form-group">
@@ -187,10 +216,18 @@
                 <div class="panel-heading">Thanks for your Submission</div>
                 <div class="panel-body">
                     <p>
-                        Thanks a lot for submitting your response to the LJMU Maker Education asset
-                        inventory.  We'll be publishing a report of our findings and defining procedures
-                        accessing the equipment when the survey completes, and we'll keep you posted
-                        on the results.
+                        Thanks a lot for submitting your response to the HEdWorks Maker Inventory.  
+						We will keep you updated on the progress of the inventory and how to access it
+						in the future. Feel free to contact us in the meantime, and please disseminate 
+						this survey among colleagues.
+					</p>
+					<p>
+						Yours sincerely,
+					</p>
+					<p>
+						Brett Lemperuer (Programme lead), Mark Felthamn (Programme co-lead), 
+						David Llewellyn-Jones (Technical lead), Mark Sabino (Technical co-lead), 
+						and all at MEwg.
                     </p>
                 </div>
             </div>
