@@ -40,7 +40,7 @@
 						<li>Provide contact and access information to items.</li>
 					</ul>
 					<p>
-						It's objectives are:-
+						Its objectives are:-
 					</p>
 					<ul>
 						<li>Improve the discovery and usage of items by staff.</li>
@@ -84,7 +84,7 @@
                 <div class="panel-body">
                     <p>
                         It's important we get the details of anyone adding to the inventory. Please
-						complete all the fields about you.
+						complete all the fields about you. You only have to do this once.
                     </p>
                     <form class="form" name="personForm" novalidate>
                         <div class="form-group">
@@ -110,17 +110,18 @@
 
             <!-- Asset entry -->
             <div class="panel panel-default" ng-controller="assetController">
-                <div class="panel-heading">Assets</div>
+                <div class="panel-heading">Inventory item</div>
                 <div class="panel-body">
                     <p>
                         Please tell us about the item(s) you would like us to map to the maker inventory:-
 						<ol>
-							<li>Complete all the fields in this panel, 'Assets'.</li>
+							<li>Complete all the fields in this panel.</li>
 							<li>Click 'Add to list' button.</li>
-							<li>Successful additions appear below the button.</li>
-							<li>Complete all the fields again in this 'Assets' panel for any remaining items.</li>
-							<li>Review the table ensuring all the items are correct.</li>
-							<li>Click 'Submit' button</li>
+							<li>Successful additions appear in a table below the button.</li>
+							<li>If there's a mistake click 'Remove', and enter the item again.</li>
+							<li>Continue completing the panel's fields for any remaining items in order to 'Add to list'.</li>
+							<li>Click 'Submit' button when you are finished.</li>
+							<li>Come back here again to add more cool stuff!</li>
 						</ol>
                     </p>
                     <form class="form" name="assetForm" ng-submit="assetForm.$valid && addAsset(inventory)" novalidate>
@@ -173,7 +174,7 @@
                 <!-- When the user has not entered any assets, let them know that they have to -->
                 <div class="panel-footer" ng-hide="inventory.length">
                     <p>
-                        Please enter at least one asset.
+                        Please enter an item to get started. Items added appear here.
                     </p>
                 </div>
 
