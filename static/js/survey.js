@@ -51,10 +51,11 @@ app.controller("assetController", ["$scope", "$http", function($scope, $http) {
     // Asset object populated with default parameters.
     $scope.asset = {
         "item": null,
+        "description": null,
         "quantity": 1,
         "location": null,
-        "staff": "Unsupervised in location",
-        "student": "Unsupervised in location"
+        "availability": "On site: no supervision, induction may be required",
+        "training": "None"
     };
 
     // Populate the list of pre-defined assets.
@@ -153,10 +154,11 @@ app.controller("assetController", ["$scope", "$http", function($scope, $http) {
         inventory.push($scope.asset);
         $scope.asset = {
             "item": null,
+            "description": null,
             "quantity": 1,
             "location": building,
-            "staff": staff,
-            "student": student
+            "availability": "On site: no supervision, induction may be required",
+            "training": "None"
         };
     }
 

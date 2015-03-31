@@ -13,7 +13,7 @@ import flask
 
 # Form validation constants.
 REQUIRED_FIELDS = ["name", "email", "faculty", "inventory"]
-REQUIRED_INVENTORY_FIELDS = ["item", "quantity", "location", "staff", "student"]
+REQUIRED_INVENTORY_FIELDS = ["item", "description", "quantity", "location", "availability", "training"]
 
 # Create the module-wide logger instance.
 logger = logging.getLogger("survey")
